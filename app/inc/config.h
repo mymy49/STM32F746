@@ -189,5 +189,3 @@
 #define USART6_ENABLE		false
 
 #endif
-
-

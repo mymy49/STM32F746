@@ -30,7 +30,8 @@
 #include <mod/sdram/MT48LC4M32B2B5_6A.h>
 #include <mod/ctouch/FT5336.h>
 
-FunctionQueue fq(16);
+FunctionQueue fq1(16, 2048), fq2(16, 1024);
+
 RK043FN48H lcd;
 FT5336 touch;
 

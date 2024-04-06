@@ -21,7 +21,7 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include "../inc/task.h"
+#include <task.h>
 #include <yss.h>
 #include <util/key.h>
 #include <gui/Frame.h>

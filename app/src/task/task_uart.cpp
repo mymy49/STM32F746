@@ -21,24 +21,51 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef BSP__H_
-#define BSP__H_
+#include <task.h>
+#include <yss.h>
+#include <bsp.h>
 
-// 타겟 보드 설정 (MB1191_B_03)
-#define MB1191_B_03
+namespace Task
+{
+	error_t sendUartHelloWorld(FunctionQueue *fq)
+	{
+		(void)fq;
 
-#include <util/FunctionQueue.h>
-#include <dev/led.h>
+		for(int32_t i = 0;i < 10;i++)
+		{
+			usart1.send("Hello World\n\r", sizeof("Hello World\n\r")); 
+			thread::delay(500);
+		}
 
-#if defined(MB1191_B_03)
-#include <mod/qsflash/N25Q128A1.h>
+		usart1.send("Complete!!\n\r", sizeof("Complete!!\n\r")); 
+		return error_t::ERROR_NONE;
+	}
 
-extern N25Q128A1 qflashMem;
-#endif
+	error_t sendUartYssOs(FunctionQueue *fq)
+	{
+		(void)fq;
 
-void initializeBoard(void);
+		for(int32_t i = 0;i < 10;i++)
+		{
+			usart1.send("It is yss OS example!!\n\r", sizeof("It is yss OS example!!\n\r")); 
+			thread::delay(500);
+		}
 
-extern FunctionQueue fq1, fq2;
+		usart1.send("Complete!!\n\r", sizeof("Complete!!\n\r")); 
+		return error_t::ERROR_NONE;
+	}
 
-#endif
+	error_t sendUartEnjoyProgramming(FunctionQueue *fq)
+	{
+		(void)fq;
+
+		for(int32_t i = 0;i < 10;i++)
+		{
+			usart1.send("enjoy programming with yss OS!!\n\r", sizeof("enjoy programming with yss OS!!\n\r")); 
+			thread::delay(500);
+		}
+
+		usart1.send("Complete!!\n\r", sizeof("Complete!!\n\r")); 
+		return error_t::ERROR_NONE;
+	}}
 

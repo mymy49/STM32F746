@@ -23,7 +23,9 @@
 
 #include <yss.h>
 #include <bsp.h>
-#include "memory.h"
+#include <bsp.h>
+#include <task.h>
+#include <memory.h>
 
 int main(void)
 {
@@ -35,10 +37,30 @@ int main(void)
 
 	// 설정 저장용 메모리 초기화
 	memory::initilize();
+	
+	// fq1 동작 시작
+	fq1.start();
+	
+	fq1.add(Task::blinkLedOneTime);
+	fq1.add(Task::blinkLedTwoTime);
+	fq1.add(Task::blinkLedThreeTime);
+	fq1.add(Task::blinkLedFourTime);
+
+	// fq2. 동작 시작
+	fq2.start();
+
+	fq2.add(Task::sendUartHelloWorld);
+	fq2.add(Task::sendUartYssOs);
+	fq2.add(Task::sendUartEnjoyProgramming);
+	
+	thread::delay(2000);
+	fq1.stop();
+	fq2.stop();
 
 	while(1)
 	{
 		thread::yield();
 	}
 }
+
 
