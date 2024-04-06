@@ -24,7 +24,21 @@
 #ifndef BSP__H_
 #define BSP__H_
 
+// 타겟 보드 설정 (MB1191_B_03)
+#define MB1191_B_03
+
+#include <util/FunctionQueue.h>
+#include <dev/led.h>
+
+#if defined(MB1191_B_03)
+#include <mod/qsflash/N25Q128A1.h>
+
+extern N25Q128A1 qflashMem;
+#endif
+
 void initializeBoard(void);
+
+extern FunctionQueue fq;
 
 #endif
 

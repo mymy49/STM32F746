@@ -27,11 +27,11 @@
 // ####################### 외부 크리스탈 클럭 주파수 설정 #######################
 // 아래 HSE_CLOCK_FREQ가 정의 되어 있으면 HSE 클럭을 소스로 PLL 설정이 이뤄집니다.
 // 정의되어 있지 않으면 HSI 클럭을 소스로 PLL 설정이 이뤄집니다.
-//#define HSE_CLOCK_FREQ 25000000
+#define HSE_CLOCK_FREQ 25000000
 
 // ####################### lmalloc 설정 #######################
 // SDRAM을 이용한 동적할당 메모리의 사용 여부(true, false)
-#define YSS_L_HEAP_USE			false
+#define YSS_L_HEAP_USE			true
 
 // SDRAM의 시작 주소 설정
 // STM32F7 (Bank1 - 0x60000000, Bank2 - 0x70000000)
@@ -66,10 +66,10 @@
 
 // ####################### GUI 설정 #######################
 // GUI library Enable (true, false)
-#define USE_GUI							false
+#define USE_GUI							true
 
 // Touch Event Enable (true, false)
-#define USE_EVENT						false
+#define USE_EVENT						true
 
 // Stack Size of Touch Event handler (Byte)
 #define TOUCH_EVENT_HANDLER_STACK_SIZE	4096
@@ -77,11 +77,11 @@
 // Depth of Touch Event Memory ( 32 ~ 256 )
 #define TOUCH_EVENT_MEMORY_DEPTH		128
 
-// Frame Buffer of LCD output (Rgb565, Rgb888, Argb1555)
-#define YSS_FRAME_BUFFER				Rgb565
+// Frame Buffer of GUI Object (Rgb565, Rgb888, Argb1555)
+#define YSS_GUI_FRAME_BUFFER			Argb1555
 
-// Frame Buffer of GUI Frame (Rgb565, Rgb888, Argb1555)
-#define YSS_GUI_FRAME_BUFFER			Rgb565
+// Frame Buffer of GUI Object (Rgb565, Rgb888, Argb1555)
+#define YSS_OUTPUT_FRAME_BUFFER			Rgb888
 
 // ####################### KEY 설정 #######################
 // 최대 KEY 생성 가능 갯수 설정 (0 ~ ), 0일 경우 기능 꺼짐
@@ -110,7 +110,7 @@
 // I2C 활성화
 #define I2C1_ENABLE			false
 #define I2C2_ENABLE			false
-#define I2C3_ENABLE			false
+#define I2C3_ENABLE			true
 #define I2C4_ENABLE			false
 
 // I2S 활성화
@@ -143,12 +143,18 @@
 #define QENCODER5_ENABLE	false
 #define QENCODER8_ENABLE	false
 
+// QUADSPI 활성화
+#define QUADSPI_ENABLE		true
+
 // SAI 활성화
 #define SAI1_ENABLE			false
 #define SAI2_ENABLE			false
 
+// SDMMC 활성화
+#define SDMMC_ENABLE		true
+
 // SDRAM 활성화
-#define SDRAM_ENABLE		false
+#define SDRAM_ENABLE		true
 
 // SPI 활성화
 #define SPI1_ENABLE			false
@@ -175,7 +181,7 @@
 #define TIM14_ENABLE		false
 
 // UART 활성화
-#define USART1_ENABLE		false
+#define USART1_ENABLE		true
 #define USART2_ENABLE		false
 #define USART3_ENABLE		false
 #define UART4_ENABLE		false

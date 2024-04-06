@@ -61,7 +61,7 @@ namespace Task
 	void setFrame(Frame *obj)
 	{
 		gFrame = obj;
-		setSystemFrame(gFrame);
+		setActiveFrame(gFrame);
 	}
 #endif
 
