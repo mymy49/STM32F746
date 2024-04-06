@@ -1,5 +1,5 @@
 /*
-	Copyright 2023. 홍윤기 all right reserved.
+	Copyright 2024. 홍윤기 all right reserved.
 
 	Permission is hereby granted, free of charge, to any person obtaining
 	a copy of this software and associated documentation files (the
@@ -25,8 +25,9 @@
 
 namespace memory
 {
-	void initilize(void)
+	void initialize(void)
 	{
 		
 	}
 }
+

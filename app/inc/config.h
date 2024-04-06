@@ -1,5 +1,5 @@
 /*
-	Copyright 2023. 홍윤기 all right reserved.
+	Copyright 2024. 홍윤기 all right reserved.
 
 	Permission is hereby granted, free of charge, to any person obtaining
 	a copy of this software and associated documentation files (the
@@ -65,10 +65,10 @@
 #define COPY_DMA			dmaChannel9
 
 // ####################### GUI 설정 #######################
-// GUI library Enable (true, false)
+// GUI 라이브러리 활성화 (true, false)
 #define USE_GUI							true
 
-// Touch Event Enable (true, false)
+// 터치 이벤트 활성화 (true, false)
 #define USE_EVENT						true
 
 // Stack Size of Touch Event handler (Byte)

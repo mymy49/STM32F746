@@ -1,5 +1,5 @@
 /*
-	Copyright 2023. 홍윤기 all right reserved.
+	Copyright 2024. 홍윤기 all right reserved.
 
 	Permission is hereby granted, free of charge, to any person obtaining
 	a copy of this software and associated documentation files (the
@@ -150,7 +150,8 @@ void initializeBoard(void)
 	// Quadspi Memory 초기화
 	const N25Q128A1::config_t config = 
 	{
-		quadspi
+		quadspi,
+		define::quadspi::bank::BANK1
 	};
 
 #if defined(MB1191_B_03)
@@ -219,7 +220,9 @@ void initializeSystem(void)
 	using namespace define::clock;
 
 	// 외부 클럭 활성화
+#if defined(HSE_CLOCK_FREQ)
 	clock.enableHse(HSE_CLOCK_FREQ);
+#endif
 
 	// Power Controller 활성화
 	clock.enableApb1Clock(RCC_APB1ENR_PWREN_Pos);

@@ -1,0 +1,19 @@
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// yssBmpMaker를 사용해 생성된 코드 입니다.
+//
+// Home Page : http://cafe.naver.com/yssoperatingsystem
+//
+////////////////////////////////////////////////////////////////////////////////////////
+
+// ARGB1555 (Little Endian) 설정으로 출력된 파일입니다.
+
+#ifndef YSS_infoButton_BMP__H_
+#define YSS_infoButton_BMP__H_
+
+#include <gui/util.h>
+
+extern const Bitmap_t infoButton;
+
+#endif
+

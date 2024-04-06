@@ -21,44 +21,61 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include <task.h>
 #include <yss.h>
 #include <bsp.h>
-#include "memory.h"
-#include "task.h"
+#include <task.h>
+#include <../bmp/mainBackground.h>
+#include <../bmp/infoButton.h>
+#include <../bmp/imageButton.h>
 
-int main(void)
+namespace Task
 {
-	bool mLastDetectFlag = false, flag;
+	static Frame *gFrame;
 
-	// 운영체체 초기화
-	initializeYss();
-	
-	// 보드 초기화
-	initializeBoard();
-
-	// 설정 저장용 메모리 초기화
-	memory::initialize();
-
-	// Function Queue 처리 시작
-	fq.start();
-
-	fq.add(Task::displayLogo);		// 로고 출력
-	fq.add(Task::handleMainPage);	// 메인 페이지 처리
-
-	while(1)
+	void handler_infoBt(void)
 	{
-		flag = sdmmc.isDetected();
+		fq.lock();
+		fq.add(handleInfoPage);
+		fq.unlock();
+	}
 
-		if(mLastDetectFlag != flag)
-		{
-			mLastDetectFlag = flag;
+	void handler_imageBt(void)
+	{
+		fq.lock();
+		fq.add(handleImagePage);
+		fq.unlock();
+	}
 
-			if(flag && !sdmmc.isConnected())
-				sdmmc.connect();
-			else if(!flag && sdmmc.isConnected())
-				sdmmc.disconnect();
-		}
-		thread::yield();
+	error_t handleMainPage(FunctionQueue *obj)
+	{
+		(void)obj;
+
+		lock();	// unlock()을 만날 때까지 외부에서 이 함수를 강제 종료 시키지 못한다.
+		clearTask();	// 이전에 등록된 쓰레드 등을 전부 제거한다.
+
+		gFrame = new Frame;
+		Bitmap *bmp = new Bitmap;
+		ImageButton *infoBt = new ImageButton(&infoButton);
+		ImageButton *imageBt = new ImageButton(&imageButton);
+
+		infoBt->setPushEventHandler(handler_infoBt);
+		infoBt->setPosition(30, 30);
+
+		imageBt->setPushEventHandler(handler_imageBt);
+		imageBt->setPosition(120, 30);
+
+		bmp->setBmp(mainBackground);
+		gFrame->add(bmp);
+		gFrame->add(infoBt);
+		gFrame->add(imageBt);
+
+		setFrame(gFrame);
+
+		unlock();	// 외부에서 강제로 종료가 가능하다.
+
+		return error_t::ERROR_NONE;
 	}
 }
+
 
