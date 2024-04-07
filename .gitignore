@@ -1,5 +1,4 @@
 *.hzs
-/STM32F746NG_working.hzp
 /Debug/
-/STM32F746NG THUMB Debug/
-/STM32F746NG THUMB Release/
+/STM32F746IE THUMB Debug/
+/STM32F746IE THUMB Release/
