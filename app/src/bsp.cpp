@@ -1,25 +1,9 @@
 /*
-	Copyright 2023. 홍윤기 all right reserved.
-
-	Permission is hereby granted, free of charge, to any person obtaining
-	a copy of this software and associated documentation files (the
-	"Software"), to deal in the Software without restriction, including
-	without limitation the rights to use, copy, modify, merge, publish,
-	distribute, sublicense, and/or sell copies of the Software, and to
-	permit persons to whom the Software is furnished to do so, subject to
-	the following conditions:
-
-	The above copyright notice and this permission notice shall be
-	included in all copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-	LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+ * Copyright (c) 2024 Yoon-Ki Hong
+ *
+ * This file is subject to the terms and conditions of the MIT License.
+ * See the file "LICENSE" in the main directory of this archive for more details.
+ */
 
 #include <bsp.h>
 #include <yss.h>
@@ -41,31 +25,29 @@ N25Q128A1 qflashMem;
 
 void initializeBoard(void)
 {
-	using namespace define::gpio;
-
 	// USART1 초기화 (Virtual Com Port)
-	gpioA.setAsAltFunc(9, altfunc::PA9_USART1_TX);
-	gpioB.setAsAltFunc(7, altfunc::PB7_USART1_RX);
+	gpioA.setAsAltFunc(9, Gpio::PA9_USART1_TX);
+	gpioB.setAsAltFunc(7, Gpio::PB7_USART1_RX);
 
 	usart1.enableClock();
 	usart1.initialize(115200, 128);
 	usart1.enableInterrupt();
 
 	// I2C3 초기화
-	gpioH.setAsAltFunc(7, altfunc::PH7_I2C3_SCL, ospeed::MID, otype::OPEN_DRAIN);
-	gpioH.setAsAltFunc(8, altfunc::PH8_I2C3_SDA, ospeed::MID, otype::OPEN_DRAIN);
+	gpioH.setAsAltFunc(7, Gpio::PH7_I2C3_SCL, Gpio::OSPEED_MID, Gpio::OTYPE_OPEN_DRAIN);
+	gpioH.setAsAltFunc(8, Gpio::PH8_I2C3_SDA, Gpio::OSPEED_MID, Gpio::OTYPE_OPEN_DRAIN);
 
 	i2c3.enableClock();
 	i2c3.initializeAsMain(define::i2c::speed::STANDARD);
 	i2c3.enableInterrupt();
 
 	// SD 메모리 초기화
-	gpioC.setAsAltFunc(8, altfunc::PC8_SDIO_D0, ospeed::MID);
-	gpioC.setAsAltFunc(9, altfunc::PC9_SDIO_D1, ospeed::MID);
-	gpioC.setAsAltFunc(10, altfunc::PC10_SDIO_D2, ospeed::MID);
-	gpioC.setAsAltFunc(11, altfunc::PC11_SDIO_D3, ospeed::MID);
-	gpioC.setAsAltFunc(12, altfunc::PC12_SDIO_CK, ospeed::MID);
-	gpioD.setAsAltFunc(2, altfunc::PD2_SDIO_CMD, ospeed::MID);
+	gpioC.setAsAltFunc(8, Gpio::PC8_SDIO_D0, Gpio::OSPEED_MID);
+	gpioC.setAsAltFunc(9, Gpio::PC9_SDIO_D1, Gpio::OSPEED_MID);
+	gpioC.setAsAltFunc(10, Gpio::PC10_SDIO_D2, Gpio::OSPEED_MID);
+	gpioC.setAsAltFunc(11, Gpio::PC11_SDIO_D3, Gpio::OSPEED_MID);
+	gpioC.setAsAltFunc(12, Gpio::PC12_SDIO_CK, Gpio::OSPEED_MID);
+	gpioD.setAsAltFunc(2, Gpio::PD2_SDIO_CMD, Gpio::OSPEED_MID);
 	
 	sdmmc.enableClock();
 	sdmmc.initialize();
@@ -77,12 +59,12 @@ void initializeBoard(void)
 
 #if defined(MB1191_B_03)
 	// Quadspi 초기화
-	gpioB.setAsAltFunc(2, altfunc::PB2_QUADSPI_CLK);
-	gpioB.setAsAltFunc(6, altfunc::PB6_QUADSPI_BK1_NCS);
-	gpioD.setAsAltFunc(11, altfunc::PD11_QUADSPI_BK1_IO0);
-	gpioD.setAsAltFunc(12, altfunc::PD12_QUADSPI_BK1_IO1);
-	gpioE.setAsAltFunc(2, altfunc::PE2_QUADSPI_BK1_IO2);
-	gpioD.setAsAltFunc(13, altfunc::PD13_QUADSPI_BK1_IO3);
+	gpioB.setAsAltFunc(2, Gpio::PB2_QUADSPI_CLK);
+	gpioB.setAsAltFunc(6, Gpio::PB6_QUADSPI_BK1_NCS);
+	gpioD.setAsAltFunc(11, Gpio::PD11_QUADSPI_BK1_IO0);
+	gpioD.setAsAltFunc(12, Gpio::PD12_QUADSPI_BK1_IO1);
+	gpioE.setAsAltFunc(2, Gpio::PE2_QUADSPI_BK1_IO2);
+	gpioD.setAsAltFunc(13, Gpio::PD13_QUADSPI_BK1_IO3);
 
 	quadspi.enableClock();
 	quadspi.initialize();
@@ -101,45 +83,42 @@ void initializeBoard(void)
 	event::setPointerDevice(touch);
 
 	// TFT LCD 초기화
-	using namespace define::gpio::altfunc;
-	
-	Gpio::AltFunc lcdPort[28] =
+	Gpio::altFuncPort_t lcdPort[28] =
 	{
-		{GPIOJ, 6, PJ6_LCD_R7},
-		{GPIOJ, 5, PJ5_LCD_R6},
-		{GPIOJ, 4, PJ4_LCD_R5},
-		{GPIOJ, 3, PJ3_LCD_R4},
-		{GPIOJ, 2, PJ2_LCD_R3},
-		{GPIOJ, 1, PJ1_LCD_R2},
-		{GPIOJ, 0, PJ0_LCD_R1},
-		{GPIOI, 15, PI15_LCD_R0},
+		{GPIOJ, 6, Gpio::PJ6_LCD_R7},
+		{GPIOJ, 5, Gpio::PJ5_LCD_R6},
+		{GPIOJ, 4, Gpio::PJ4_LCD_R5},
+		{GPIOJ, 3, Gpio::PJ3_LCD_R4},
+		{GPIOJ, 2, Gpio::PJ2_LCD_R3},
+		{GPIOJ, 1, Gpio::PJ1_LCD_R2},
+		{GPIOJ, 0, Gpio::PJ0_LCD_R1},
+		{GPIOI, 15, Gpio::PI15_LCD_R0},
 
-		{GPIOK, 2, PK2_LCD_G7},
-		{GPIOK, 1, PK1_LCD_G6},
-		{GPIOK, 0, PK0_LCD_G5},
-		{GPIOJ, 11, PJ11_LCD_G4},
-		{GPIOJ, 10, PJ10_LCD_G3},
-		{GPIOJ, 9, PJ9_LCD_G2},
-		{GPIOJ, 8, PJ8_LCD_G1},
-		{GPIOJ, 7, PJ7_LCD_G0},
+		{GPIOK, 2, Gpio::PK2_LCD_G7},
+		{GPIOK, 1, Gpio::PK1_LCD_G6},
+		{GPIOK, 0, Gpio::PK0_LCD_G5},
+		{GPIOJ, 11, Gpio::PJ11_LCD_G4},
+		{GPIOJ, 10, Gpio::PJ10_LCD_G3},
+		{GPIOJ, 9, Gpio::PJ9_LCD_G2},
+		{GPIOJ, 8, Gpio::PJ8_LCD_G1},
+		{GPIOJ, 7, Gpio::PJ7_LCD_G0},
 
-		{GPIOK, 6, PK6_LCD_B7},
-		{GPIOK, 5, PK5_LCD_B6},
-		{GPIOK, 4, PK4_LCD_B5},
-		{GPIOG, 12, PG12_LCD_B4},
-		{GPIOJ, 15, PJ15_LCD_B3},
-		{GPIOJ, 14, PJ14_LCD_B2},
-		{GPIOJ, 13, PJ13_LCD_B1},
-		{GPIOE, 4, PE4_LCD_B0},
+		{GPIOK, 6, Gpio::PK6_LCD_B7},
+		{GPIOK, 5, Gpio::PK5_LCD_B6},
+		{GPIOK, 4, Gpio::PK4_LCD_B5},
+		{GPIOG, 12, Gpio::PG12_LCD_B4},
+		{GPIOJ, 15, Gpio::PJ15_LCD_B3},
+		{GPIOJ, 14, Gpio::PJ14_LCD_B2},
+		{GPIOJ, 13, Gpio::PJ13_LCD_B1},
+		{GPIOE, 4, Gpio::PE4_LCD_B0},
 
-		{GPIOI, 9, PI9_LCD_VSYNC},
-		{GPIOI, 10, PI10_LCD_HSYNC},
-		{GPIOK, 7, PK7_LCD_DE},
-		{GPIOI, 14, PI14_LCD_CLK}
+		{GPIOI, 9, Gpio::PI9_LCD_VSYNC},
+		{GPIOI, 10, Gpio::PI10_LCD_HSYNC},
+		{GPIOK, 7, Gpio::PK7_LCD_DE},
+		{GPIOI, 14, Gpio::PI14_LCD_CLK}
 	};
 
-	using namespace define::gpio;
-	gpioA.setPackageAsAltFunc(lcdPort, 28, ospeed::FAST, otype::PUSH_PULL);
+	gpioA.setPackageAsAltFunc(lcdPort, 28, Gpio::OSPEED_FAST, Gpio::OTYPE_PUSH_PULL);
 
 	gpioI.setAsOutput(12);	// LCD DISP 핀 활성화
 	gpioI.setOutput(12, true);
@@ -166,50 +145,48 @@ void initializeBoard(void)
 // OS에서 자동으로 호출함
 void initializeSdram(void)
 {
-	using namespace define::gpio::altfunc;
-
-	Gpio::AltFunc sdramPort[38]{
-		{GPIOF, 0, PF0_FMC_A0},
-		{GPIOF, 1, PF1_FMC_A1},
-		{GPIOF, 2, PF2_FMC_A2},
-		{GPIOF, 3, PF3_FMC_A3},
-		{GPIOF, 4, PF4_FMC_A4},
-		{GPIOF, 5, PF5_FMC_A5},
-		{GPIOF, 12, PF12_FMC_A6},
-		{GPIOF, 13, PF13_FMC_A7},
-		{GPIOF, 14, PF14_FMC_A8},
-		{GPIOF, 15, PF15_FMC_A9},
-		{GPIOG, 0, PG0_FMC_A10},
-		{GPIOG, 1, PG1_FMC_A11},
-		{GPIOG, 4, PG4_FMC_BA0},
-		{GPIOG, 5, PG5_FMC_BA1},
-		{GPIOD, 14, PD14_FMC_D0},
-		{GPIOD, 15, PD15_FMC_D1},
-		{GPIOD, 0, PD0_FMC_D2},
-		{GPIOD, 1, PD1_FMC_D3},
-		{GPIOE, 7, PE7_FMC_D4},
-		{GPIOE, 8, PE8_FMC_D5},
-		{GPIOE, 9, PE9_FMC_D6},
-		{GPIOE, 10, PE10_FMC_D7},
-		{GPIOE, 11, PE11_FMC_D8},
-		{GPIOE, 12, PE12_FMC_D9},
-		{GPIOE, 13, PE13_FMC_D10},
-		{GPIOE, 14, PE14_FMC_D11},
-		{GPIOE, 15, PE15_FMC_D12},
-		{GPIOD, 8, PD8_FMC_D13},
-		{GPIOD, 9, PD9_FMC_D14},
-		{GPIOD, 10, PD10_FMC_D15},
-		{GPIOE, 0, PE0_FMC_NBL0},
-		{GPIOE, 1, PE1_FMC_NBL1},
-		{GPIOG, 8, PG8_FMC_SDCLK},
-		{GPIOH, 5, PH5_FMC_SDNWE},
-		{GPIOF, 11, PF11_FMC_SDNRAS},
-		{GPIOG, 15, PG15_FMC_SDNCAS},
-		{GPIOC, 3, PC3_FMC_SDCKE0},
-		{GPIOH, 3, PH3_FMC_SDNE0}
+	Gpio::altFuncPort_t sdramPort[38]{
+		{GPIOF, 0, Gpio::PF0_FMC_A0},
+		{GPIOF, 1, Gpio::PF1_FMC_A1},
+		{GPIOF, 2, Gpio::PF2_FMC_A2},
+		{GPIOF, 3, Gpio::PF3_FMC_A3},
+		{GPIOF, 4, Gpio::PF4_FMC_A4},
+		{GPIOF, 5, Gpio::PF5_FMC_A5},
+		{GPIOF, 12, Gpio::PF12_FMC_A6},
+		{GPIOF, 13, Gpio::PF13_FMC_A7},
+		{GPIOF, 14, Gpio::PF14_FMC_A8},
+		{GPIOF, 15, Gpio::PF15_FMC_A9},
+		{GPIOG, 0, Gpio::PG0_FMC_A10},
+		{GPIOG, 1, Gpio::PG1_FMC_A11},
+		{GPIOG, 4, Gpio::PG4_FMC_BA0},
+		{GPIOG, 5, Gpio::PG5_FMC_BA1},
+		{GPIOD, 14, Gpio::PD14_FMC_D0},
+		{GPIOD, 15, Gpio::PD15_FMC_D1},
+		{GPIOD, 0, Gpio::PD0_FMC_D2},
+		{GPIOD, 1, Gpio::PD1_FMC_D3},
+		{GPIOE, 7, Gpio::PE7_FMC_D4},
+		{GPIOE, 8, Gpio::PE8_FMC_D5},
+		{GPIOE, 9, Gpio::PE9_FMC_D6},
+		{GPIOE, 10, Gpio::PE10_FMC_D7},
+		{GPIOE, 11, Gpio::PE11_FMC_D8},
+		{GPIOE, 12, Gpio::PE12_FMC_D9},
+		{GPIOE, 13, Gpio::PE13_FMC_D10},
+		{GPIOE, 14, Gpio::PE14_FMC_D11},
+		{GPIOE, 15, Gpio::PE15_FMC_D12},
+		{GPIOD, 8, Gpio::PD8_FMC_D13},
+		{GPIOD, 9, Gpio::PD9_FMC_D14},
+		{GPIOD, 10, Gpio::PD10_FMC_D15},
+		{GPIOE, 0, Gpio::PE0_FMC_NBL0},
+		{GPIOE, 1, Gpio::PE1_FMC_NBL1},
+		{GPIOG, 8, Gpio::PG8_FMC_SDCLK},
+		{GPIOH, 5, Gpio::PH5_FMC_SDNWE},
+		{GPIOF, 11, Gpio::PF11_FMC_SDNRAS},
+		{GPIOG, 15, Gpio::PG15_FMC_SDNCAS},
+		{GPIOC, 3, Gpio::PC3_FMC_SDCKE0},
+		{GPIOH, 3, Gpio::PH3_FMC_SDNE0}
 	};
 
-	gpioA.setPackageAsAltFunc(sdramPort, 38, define::gpio::ospeed::FAST, define::gpio::otype::PUSH_PULL);
+	gpioA.setPackageAsAltFunc(sdramPort, 38, Gpio::OSPEED_FAST, Gpio::OTYPE_PUSH_PULL);
 
 	clock.enableSdram();
 	sdram.initialize(define::sdram::bank::BANK1, MT48LC4M32B2B5_6A, 216000000);
