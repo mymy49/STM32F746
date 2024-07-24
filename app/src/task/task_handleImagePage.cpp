@@ -201,7 +201,6 @@ public :
 	void refresh(void)
 	{
 		bool flag = sdmmc.isConnected();
-		mEditLocker.lock();
 
 		if(flag && mLastConnectFlag == false)
 		{
@@ -221,7 +220,6 @@ public :
 
 		paint();
 		update();
-		mEditLocker.unlock();
 	}
 
 	void setBmpViewer(BmpViewer *obj)

@@ -36,10 +36,7 @@ public :
 	{
 		Position_t textPos = {70, 70};
 		int16_t lineOffset = 30;
-		Font font(Font_Noto_Sans_CJK_HK_14);
 		
-		mEditLocker.lock();
-
 		// 객체 크기 설정
 		setSize(infoBackground.width, infoBackground.height);
 		
@@ -47,8 +44,7 @@ public :
 		mFrameBuffer->drawBitmap({0, 0}, infoBackground);
 		
 		// 본문 쓰기
-		font.setSpaceWidth(6);
-		mFrameBuffer->setFont(font);
+		mFrameBuffer->setFont(Font_Noto_Sans_CJK_HK_14);
 		mFrameBuffer->setFontColor(0x00, 0x00, 0x00);
 
 		mFrameBuffer->drawString(textPos, "본 소프트웨어는 이순신 OS를 위한 예제 프로젝트입니다.");
@@ -59,8 +55,6 @@ public :
 		textPos.y += lineOffset;
 		mFrameBuffer->drawString(textPos, "제공하기 위해 진행합니다.");
 		textPos.y += lineOffset;
-
-		mEditLocker.unlock();
 	}
 
 	virtual ~Info(void)
