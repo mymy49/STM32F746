@@ -71,7 +71,7 @@ void initializeBoard(void)
 #endif
 
 	// 터치 초기화
-	const FT5336::Config touchConfig = 
+	const FT5336::config_t touchConfig = 
 	{
 		i2c3,			//I2c &peri;
 		{&gpioI, 13},	//Gpio::Pin isrPin;
@@ -126,13 +126,13 @@ void initializeBoard(void)
 	ltdc.initialize(lcd.getSpecification());
 	ltdc.enableInterrupt();
 
+#if defined(MB1191_B_03)
 	// Quadspi Memory 초기화
 	const N25Q128A1::config_t config = 
 	{
 		quadspi
 	};
 
-#if defined(MB1191_B_03)
 	qflashMem.setConfig(config);
 	qflashMem.initialize();
 #endif
