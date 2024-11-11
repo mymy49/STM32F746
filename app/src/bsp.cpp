@@ -35,9 +35,13 @@ void initializeBoard(void)
 	// I2C3 초기화
 	gpioH.setAsAltFunc(7, Gpio::PH7_I2C3_SCL, Gpio::OSPEED_MID, Gpio::OTYPE_OPEN_DRAIN);
 	gpioH.setAsAltFunc(8, Gpio::PH8_I2C3_SDA, Gpio::OSPEED_MID, Gpio::OTYPE_OPEN_DRAIN);
-
+	I2c::config_t i2c3Config = 
+	{
+		I2c::MODE_MAIN,		//mode_t mode;			// 통신 모드 (Main 전용)
+		I2c::SPEED_STANDARD	//speed_t speed;		// 통신 속도 (Main 전용)
+	};
 	i2c3.enableClock();
-	i2c3.initializeAsMain(define::i2c::speed::STANDARD);
+	i2c3.initialize(i2c3Config);
 	i2c3.enableInterrupt();
 
 	// SD 메모리 초기화
