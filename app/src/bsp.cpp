@@ -25,11 +25,20 @@ N25Q128A1 qflashMem;
 void initializeBoard(void)
 {
 	// USART1 초기화 (Virtual Com Port)
+	Uart::config_t uart1Config =
+	{
+		Uart::MODE_NORMAL,	//mode_t mode;			// 동작 모드의 종류를 설정합니다.
+		115200,				//uint32_t baudrate;	// 보레이트를 설정합니다.
+		Uart::STOP_1BIT,	//stopbit_t stopbit;	// Stop Bit의 종류를 설정합니다.
+		nullptr,			//void *rcvBuf;			// 수신 버퍼를 지정합니다.
+		128					//uint32_t rcvBufSize;	// 수신 버퍼의 크기를 지정합니다.
+	};
+
 	gpioA.setAsAltFunc(9, Gpio::PA9_USART1_TX);
 	gpioB.setAsAltFunc(7, Gpio::PB7_USART1_RX);
 
 	usart1.enableClock();
-	usart1.initialize(115200, 128);
+	usart1.initialize(uart1Config);
 	usart1.enableInterrupt();
 
 	// I2C3 초기화
